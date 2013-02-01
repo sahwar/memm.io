@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<script src="js/jquery-1.8.1.min.js"></script>
+		<link rel="stylesheet" href="css/font-awesome.min.css">
+		<script src="js/jquery.wysibb.min.js?1.3.0"></script>
+		<link rel="stylesheet" href="css/memmio/memmiotheme.css?1.3.0" type="text/css" />
+		<script src="js/lang/en.js"> </script>
+		<meta http-equiv="content-language" content="en-en" />
+		<title>memm.io</title>	
+		<style>
+                	#displaybox {
+				z-index: 10000;
+				filter: alpha(opacity=50); /*older IE*/
+				filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50); /* IE */
+				-moz-opacity: .50; /*older Mozilla*/
+				-khtml-opacity: 0.5;   /*older Safari*/
+				opacity: 0.5;   /*supported by current Mozilla, Safari, and Opera*/
+				background-color:#000000;
+				position:fixed; top:0px; left:0px; width:100%; height:100%; color:#FFFFFF; text-align:center; vertical-align:middle;
+			}
+		</style>
+		<script>
+	                function clicker(){
+	                	var thediv=document.getElementById('displaybox');
+				if(thediv.style.display == "none"){
+					thediv.style.display = "";
+					thediv.innerHTML = "<div id='aboutbox'><h1>Hi, I'm memm.io</h1><br><p>No cloud storage, no Facebook IDs, no Sharing. Just notes. They are automatically saved in your Browser, locally. When you come back to this page they still will be here. Happy writing.</p><br><p>By <a href='http://blog.tldnr.org'>Sebastian Glahn</a><br>Fork this project on <a href=''>GitHub</a></p>";
+					thediv.addEventListener('click', function(){ return clicker(); }, false); 
+				}else{
+					thediv.style.display = "none";
+					thediv.innerHTML = '';
+				}
+				return false;
+			}
+		</script>
+	</head>	
+
+	<body>
+		<div id="displaybox" style="display: none;"></div>
+		<div id="outer"><div id="header"><a href="#" onclick="return clicker();">memm.io</a></div>
+		<p>
+		<textarea id="editor" style="height:700px;"></textarea>
+			<script type="text/javascript">				
+				var wbbOpt = {
+					buttons: 'bold,italic,underline,strike,sup,sub,fontcolor,fontsize,|,bullist,numlist,|,justifyleft,justifycenter,justifyright,|,quote,table',
+					lang: 'en',
+				}
+				$("#editor").wysibb(wbbOpt);
+			</script>
+			<script type="text/javascript">
+				document.body.style.overflow = 'hidden';
+    				var supported = 'This text will be saved locally, forever.',
+    				unsupported = 'Oh no! Your browser does not support localStorage.';
+				if (window.localStorage) {
+					if (localStorage.text == "") {
+						clicker();
+					}
+					var p = document.getElementsByClassName('wysibb-text-editor wysibb-body')[0];
+					if (localStorage.text == null) {						
+						localStorage.text = p.value = supported;
+					} else {
+						p.innerHTML = localStorage.text;
+					}
+	    				p.addEventListener('input', function(){ localStorage.text = p.innerHTML;}, false);
+				} else {
+					document.getElementsByClassName('wysibb-text-editor wysibb-body').value = unsupported;
+				}
+			</script>
+			</p>
+		</div>
+	</body>
+</html>
